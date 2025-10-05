@@ -5,7 +5,7 @@
  */
 declare (strict_types =1);
 namespace srs\public\ahorcado;
-final class game {
+final class Game {
     private String $word;
     private int $maxAttempts;
     private int $attemptsLeft;
@@ -22,7 +22,7 @@ final class game {
             $this->word = strtoupper($state['word']);
             $this->maxAttempts = (int) $state['maxAttempts'];
             $this->attemptsLeft = (int) $state['attemptsLeft'];
-            $this->usedLetters = array_values(array_unique(array: array_map('strtoupper', (array)$state['usedLetters'])));
+            $this->usedLetters = array_values(array_unique(array_map('strtoupper', (array)$state['usedLetters'])));
             return;
         }
         
@@ -70,7 +70,7 @@ final class game {
 
     /**
      * Funcion que devuleve los intentos restantes
-     * @return void
+     * @return int
      */
     public function getAttemptsLeft(): int{
         return $this->attemptsLeft;
@@ -89,7 +89,7 @@ final class game {
      * @return void
      */
     public function isWon(): bool{
-        return strpos($this->getMaskedWord(), '_') == false;
+        return strpos($this->getMaskedWord(), '_') === false;
     }
 
     /**

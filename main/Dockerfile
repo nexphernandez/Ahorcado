@@ -10,9 +10,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public/ahorcado
 RUN sed -ri "s!/var/www/html!${APACHE_DOCUMENT_ROOT}!g" /etc/apache2/sites-available/000-default.conf \
- && sed -ri "s!Directory /var/www/!Directory ${APACHE_DOCUMENT_ROOT%/public}!g" /etc/apache2/apache2.conf
+ && sed -ri "s!Directory /var/www/!Directory ${APACHE_DOCUMENT_ROOT}!g" /etc/apache2/apache2.conf
+
 
 COPY php.ini /usr/local/etc/php/conf.d/zz-custom.ini
 

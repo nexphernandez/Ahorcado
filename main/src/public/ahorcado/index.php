@@ -1,98 +1,50 @@
 <?php
-session_start();
+declare(strict_types=1);
 
-$palabras = ["PROGRAMACION", "PHP", "AHORCADO", "JUEGO", "WEB"];
+use srs\public\ahorcado\Game;
+use srs\public\ahorcado\Renderer;
+use srs\public\ahorcado\Storage;
+use srs\public\ahorcado\WordProvider;
 
-if (!isset($_SESSION['palabra'])) {
-    $_SESSION['palabra'] = $palabras[array_rand($palabras)];
-    $_SESSION['intentos'] = 6;
-    $_SESSION['letras_usadas'] = [];
+require_once __DIR__ . '/Game.php';
+require_once __DIR__ . '/Renderer.php';
+require_once __DIR__ . '/Storage.php';
+require_once __DIR__ . '/WordProvider.php';
+
+$storage = new Storage();
+
+$provider = new WordProvider(filePath: __DIR__ . '/resources/palabras.txt');
+
+try {
+    $palabra = $storage->get('word', $provider ->randomWord());
+} catch (Exception $e) {
+    print($e);
 }
 
-if (isset($_POST['letra'])) {
-    $letra = strtoupper($_POST['letra']);
-    if (!in_array($letra, $_SESSION['letras_usadas'])) {
-        $_SESSION['letras_usadas'][] = $letra;
-        if (strpos($_SESSION['palabra'], $letra) === false) {
-            $_SESSION['intentos']--;
-        }
-    }
+$game = new Game($palabra,6,[
+    'word' => $palabra,
+    'maxAttempts' => 6,
+    'attemptsLeft' => $storage->get('attemptsLeft', 6),
+    'usedLetters' => $storage->get('usedLetters', [])
+]);
+
+if (isset($_POST['word'])) {
+    $game ->guessLetter($_POST['word']);
 }
 
-$mostrar = "";
-foreach (str_split($_SESSION['palabra']) as $letra) {
-    $mostrar .= in_array($letra, $_SESSION['letras_usadas']) ? $letra : "_";
-}
+$storage ->set('word', $game->getWord());
+$storage ->set('attemptsLeft', $game->getAttemptsLeft());
+$storage ->set('usedLetters', $game->getUsedLetters());
 
+$renderer = new Renderer();
+$mostrar = $game->getMaskedWord();
 $mensaje = "";
-if ($mostrar === $_SESSION['palabra']) {
-    $mensaje = "Felicidades ¡Ganaste! La palabra era: " . $_SESSION['palabra'];
-}
-if ($_SESSION['intentos'] <= 0) {
-    $mensaje = "Lo siento ¡Perdiste! La palabra era: " . $_SESSION['palabra'];
+if ($game->isWon()) {
+    $mensaje = "Felicidades ¡Ganaste! La palabra era: " . $game->getWord();
+} elseif ($game->isLost()){
+    $mensaje = "Lo siento ¡Perdiste! La palabra era: " . $game->getWord();
 }
 
-function dibujoAhorcado($intentos) {
-    $estados = [
-        6 => " 
-  +---+
-  |   |
-      |
-      |
-      |
-      |
-========= ",
-        5 => " 
-  +---+
-  |   |
-  O   |
-      |
-      |
-      |
-========= ",
-        4 => " 
-  +---+
-  |   |
-  O   |
-  |   |
-      |
-      |
-========= ",
-        3 => " 
-  +---+
-  |   |
-  O   |
- /|   |
-      |
-      |
-========= ",
-        2 => " 
-  +---+
-  |   |
-  O   |
- /|\  |
-      |
-      |
-========= ",
-        1 => " 
-  +---+
-  |   |
-  O   |
- /|\  |
- /    |
-      |
-========= ",
-        0 => " 
-  +---+
-  |   |
-  O   |
- /|\  |
- / \  |
-      |
-========= "
-    ];
-    return "<pre>" . $estados[$intentos] . "</pre>";
-}
 ?>
 <!DOCTYPE html>
 <html>
@@ -103,16 +55,16 @@ function dibujoAhorcado($intentos) {
 <body>
 <h1>Juego del Ahorcado</h1>
 
-<?php echo dibujoAhorcado($_SESSION['intentos']); ?>
+<?php echo "<img src='".$renderer->ascii($game->getAttemptsLeft())."' alt='Ahorcado'>"; ?>
 
 <p>Palabra: <?php echo implode(" ", str_split($mostrar)); ?></p>
-<p>Intentos restantes: <?php echo $_SESSION['intentos']; ?></p>
-<p>Letras usadas: <?php echo implode(", ", $_SESSION['letras_usadas']); ?></p>
+<p>Intentos restantes: <?php echo $game->getAttemptsLeft(); ?></p>
+<p>Letras usadas: <?php echo implode(", ", $game->getUsedLetters()); ?></p>
 
-<?php if ($mensaje == ""): ?>
+<?php if ($mensaje === ""): ?>
     <form method="post">
         <label>Introduce una letra:</label>
-        <input type="text" name="letra" maxlength="1" required>
+        <input type="text" name="word" maxlength="1" required>
         <button type="submit">Adivinar</button>
     </form>
 <?php else: ?>
