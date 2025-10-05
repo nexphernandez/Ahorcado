@@ -29,21 +29,45 @@ final class game {
     public function guessLetter(string $letter): void{}
 
     /**
-     * Funcion que encuentra la palabra coculta
+     * Funcion que devuelve la palabra coculta con guiones bajos
      * @return string palabra oculta
      */
     public function getMaskedWord(): string{}
 
+    /**
+     * Funcion que devuleve los intentos restantes
+     * @return void
+     */
     public function getAttemptsLeft(): int{}
 
+    /**
+     * Funcion que devuelve las letras ya usadas
+     * @return void
+     */
     public function getUsedLetters(): array{}
 
+    /**
+     * Funcion que comprueba si la partida esta ganada
+     * @return void
+     */
     public function isWon(): bool{}
 
+    /**
+     * Funcion que comprueba si la partida esta perdida
+     * @return void
+     */
     public function isLost(): bool{}
 
+    /**
+     * Funcion que devuelve la palabra completa
+     * @return void
+     */
     public function getWord(): string{}
 
+    /**
+     * Funcion que serealiza el estado actual para guardarlo en la sesion
+     * @return void
+     */
     public function toState(): array{}
 
 }

@@ -11,7 +11,7 @@ final class Storage{
 
     /**
      * Constructor de la clase Storage
-     * @param string $key clave de namespacing
+     * @param string $key clave de para guardar los datos del juego
      */
     function __construct(String $key = 'ahoracado') {}
 
