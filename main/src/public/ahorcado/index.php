@@ -63,10 +63,14 @@ if ($game->isWon()) {
 
 <?php if ($mensaje === ""): ?>
     <form method="post">
-        <label>Introduce una letra:</label>
-        <input type="text" name="word" maxlength="1" required>
-        <button type="submit">Adivinar</button>
-    </form>
+    <?php
+    $alfabeto = range('A', 'Z');
+    foreach ($alfabeto as $letra):
+        $disabled = in_array($letra, $game->getUsedLetters()) ? 'disabled' : '';
+    ?>
+        <button type="submit" name="word" value="<?= $letra ?>" <?= $disabled ?>><?= $letra ?></button>
+    <?php endforeach; ?>
+</form>
 <?php else: ?>
     <p><strong><?php echo $mensaje; ?></strong></p>
     <a href="reset.php">Jugar de nuevo</a>
