@@ -1,143 +1,66 @@
-# <img src=../../../../../../images/computer.png width="40"> Code, Learn & Practice(Acceso a Datos: "Trabajo con ficheros interfaz gráfica")
+# AhorcadoPHP
 
-<img src="https://laruletagiratoria.com/wp-content/uploads/ahorcado.jpg" size="300">
-
-## Preparación
-
-- Descarga el fichero ahorcado.zip que se encuentra dentro de la carpeta recursos.
-- Descarga, ejecuta y verifica el correcto funcionamiento.
-- Crea un repositorio dentro de github (`https://github.com/tu-usuario/ahorcado`))
-
-- Crea una rama llamada `v1`.
-- Genera un README.md para la documentación de proyecto
-  
-- Diseña un `mock` con [drawio](https://www.drawio.com/), e integra en la carpeta `images`.
-
-## Juego
-
-El juego debe de tener el siguiente diagrama de realaciones de clases
-
-```code
-WordProvider  ──►  Game  ◄── Storage
-       │               │
-       └──────────────►│
-                       │
-                   Renderer
-```
-
-- **WordProvider**: obtiene palabras desde ficheros u otras fuentes.
-- **Game**: encapsula la lógica del juego (estado, intentos, victoria/derrota).
-- **Storage**: maneja la persistencia del estado (sesiones).
-- **Renderer**: dibuja el ahorcado en ASCII según intentos restantes.
+AhorcadoPHP es un juego sencillo que te invita a adivinar palabras letra a letra directamente desde el navegador. Está pensado para que cualquier persona pueda jugar sin complicaciones.
 
 ---
 
-### Clase: `Game`
+## Características
 
-**Responsabilidad:** Gestionar la partida.
-
-### Estado interno
-
-- `string $word` — palabra objetivo en MAYÚSCULAS.
-- `int $maxAttempts` — número máximo de intentos.
-- `int $attemptsLeft` — intentos restantes.
-- `string[] $usedLetters` — letras jugadas.
-
-#### Métodos
-
-- `__construct(string $word, int $maxAttempts = 6, ?array $state = null)`  
-  Inicializa o restaura estado.
-- `guessLetter(string $letter): void`  
-  Procesa una letra, resta intentos si falla.
-- `getMaskedWord(): string`  
-  Devuelve la palabra con guiones bajos y letras descubiertas.
-- `getAttemptsLeft(): int`  
-  Retorna intentos restantes.
-- `getUsedLetters(): array`  
-  Retorna letras ya jugadas.
-- `isWon(): bool`  
-  Verdadero si la palabra fue adivinada.
-- `isLost(): bool`  
-  Verdadero si no quedan intentos y no ganó.
-- `getWord(): string`  
-  Devuelve la palabra completa.
-- `toState(): array`  
-  Serializa estado (para guardar en sesión).
+- **Interfaz intuitiva**: Página con el tablero del ahorcado y botones para seleccionar letras.
+- **Mensajes claros**: Indica si has ganado, perdido o si aún puedes seguir intentando.
+- **Reiniciar fácil**: Botón para comenzar una nueva partida sin recargar la página.
+- **Palabras aleatorias**: Lista de palabras en un archivo de texto, para partidas diferentes.
+- **Compatibilidad con Docker**: Configuración lista para ejecutarse con Docker.
 
 ---
 
-### Clase: `WordProvider`
+## Cómo funciona la partida
 
-**Responsabilidad:** Proveer palabras para el juego.
-
-#### Estado interno
-
-- `string $filePath` — fichero de palabras.
-
-#### Métodos
-
-- `__construct(string $filePath)`  
-  Configura la fuente de palabras.
-- `randomWord(): string`  
-  Retorna palabra aleatoria (mayúsculas, limpia de acentos).
+1. La página muestra los espacios vacíos de la palabra secreta.
+2. Seleccionas letras desde el teclado o los botones en pantalla.
+3. Las letras correctas aparecen en su posición.
+4. Con cada error, se dibuja una parte del muñeco.
+5. Ganas si completas la palabra antes de que se termine el dibujo.
+6. Se agotan los intentos y pierdes si no adivinas la palabra a tiempo.
 
 ---
 
-### Clase: `Storage`
+## Mockups
 
-**Responsabilidad:** Persistir estado en la sesión.
-
-#### Estado interno
-
-- `string $key` — clave de namespacing en `$_SESSION`.
-
-#### Métodos
-
-- `__construct(string $key = 'ahorcado')`  
-  Inicializa sesión y espacio de datos.
-- `get(string $name, $default = null)`  
-  Recupera valor o `$default`.
-- `set(string $name, $value): void`  
-  Guarda valor.
-- `reset(): void`  
-  Elimina estado almacenado.
+| Mockup inicial | Mockup final |
+|------------------|--------------|
+| <img src="images/mokup.drawio.png" width="288" alt="Mockup inicial"/> | <img src="images/mokupVersion1.png" width="300" alt="Mockup final"/> |
 
 ---
 
-### Clase: `Renderer`
+## Cómo ponerlo en marcha
 
-**Responsabilidad:** Renderizar el dibujo ASCII del ahorcado.
+### Opción con Docker
 
-#### Métodos
-- `ascii(int $attemptsLeft): string`  
-  Devuelve el dibujo `<pre>…</pre>` según intentos restantes.
+1. Instala **Docker Desktop** y asegúrate de que esté en ejecución.
+2. Abre una terminal y navega a la carpeta del proyecto.
+3. Ejecuta:  
+   ```bash
+   docker compose up --build
+   ```
+4. Cuando aparezca el mensaje de que el servidor está listo, visita:
+    http://localhost:8080/ahorcado/index.php
+5. Para detener el servidor, presiona Ctrl + C en la terminal.
 
----
+### Opción sin Docker
 
-## Flujo de uso
+1. Copia la carpeta src/public/ahorcado dentro de la carpeta pública de tu servidor local (por ejemplo, C:\xampp\htdocs\ahorcado).
+2. Inicia el servidor web (Apache, XAMPP, etc.).
+3. Accede en tu navegador a:
+    http://localhost/ahorcado/index.php
 
-1. `Storage` carga estado de sesión.
-2. `WordProvider` da la palabra inicial si no existe.
-3. `Game` gestiona lógica de letras e intentos.
-4. `Storage` guarda de nuevo el estado (`toState()`).
-5. `Renderer` convierte intentos restantes en el dibujo ASCII.
-6. `index.php` genera HTML con datos de `Game` + `Renderer`.
+### Personalización y mantenimiento
 
----
+* Agregar palabras nuevas: Edita el archivo src/public/ahorcado/words.txt (una palabra por línea).
+* Ajustar estilos: Modifica src/public/ahorcado/style.css para cambiar colores, tipografías y diseño.
+* Recursos adicionales: Añade imágenes o sonidos en la carpeta recursos.
 
-## Extensiones opcionales
+Notas finales
 
-- **Pistas:** método que revela una letra con coste de intento.
-- **Historial:** registrar partidas en fichero.
-- **Categorías/dificultad:** `WordProvider` avanzado.
-- **Fichero Configuración**. Carga de inicio el número de intentos/nivel de arranque/etc del juego.
-
-
-
-## Referencias
-
-- https://doc.php.net/archives/php5/php_manual_en.tar.gz
-
-## Licencia 📄
-
-Este proyecto está bajo la Licencia (Apache 2.0) - mira el archivo [LICENSE.md]([../../../LICENSE.md](https://github.com/jpexposito/code-learn-practice/blob/main/LICENSE)) para detalles.
+* Este proyecto es flexible y fácil de extender.
+* Para dudas, mejoras o sugerencias, puedes editar este archivo y colaborar en el proyecto.
