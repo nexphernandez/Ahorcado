@@ -60,7 +60,7 @@ AhorcadoPHP es un juego sencillo que te invita a adivinar palabras letra a letra
 * Ajustar estilos: Modifica src/public/ahorcado/style.css para cambiar colores, tipografías y diseño.
 * Recursos adicionales: Añade imágenes o sonidos en la carpeta recursos.
 
-Notas finales
+ ## Notas finales
 
 * Este proyecto es flexible y fácil de extender.
 * Para dudas, mejoras o sugerencias, puedes editar este archivo y colaborar en el proyecto.
