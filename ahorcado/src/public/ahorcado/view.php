@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Ahorcado en PHP</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="resources/css/style.css">
 </head>
 <body>
 <h1>Juego del Ahorcado</h1>

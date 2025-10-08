@@ -12,7 +12,7 @@ require_once __DIR__ . '/Storage.php';
 require_once __DIR__ . '/WordProvider.php';
 
 $storage = new Storage();
-$provider = new WordProvider(filePath: __DIR__ . '/resources/palabras.txt');
+$provider = new WordProvider(filePath: __DIR__ . '/resources/ficheros/words.txt');
 
 try {
     $palabra = $storage->get('word', $provider->randomWord());
