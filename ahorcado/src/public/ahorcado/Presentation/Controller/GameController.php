@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Presentation\Controllers;
+namespace App\Presentation\Controller;
 
 use App\Domain\Entity\Game;
-use App\Infraestructure\Persistence\JsonWordRepository;
-use App\Infraestructure\Session\SessionStorage;
-use App\Presentatiton\Views\Renderer;
+use App\Infrastructure\Persistence\JsonWordRepository;
+use App\Infrastructure\Session\SessionStorage;
+use App\Presentation\Views\Renderer;
 
 final class GameController
 {

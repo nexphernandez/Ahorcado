@@ -4,7 +4,7 @@
  * @version 1.0.0
  */
 declare(strict_types= 1);
-namespace App\Infraestructure\Persistence;
+namespace App\Infrastructure\Persistence;
 
 use App\Domain\Repository\WordRepositoryInterface;
 final class JsonWordRepository  implements WordRepositoryInterface{

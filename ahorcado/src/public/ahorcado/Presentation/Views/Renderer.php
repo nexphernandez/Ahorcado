@@ -4,7 +4,7 @@
  * @version 1.0.0
  */
 declare(strict_types=1);
-namespace App\Presentatiton\Views;
+namespace App\Presentation\Views;
 
 final class Renderer{
     /**

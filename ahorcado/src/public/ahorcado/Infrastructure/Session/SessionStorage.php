@@ -4,7 +4,7 @@
  * @version 1.0.0
  */
 declare(strict_types=1);
-namespace App\Infraestructure\Session;
+namespace App\Infrastructure\Session;
 
 final class SessionStorage{
     private String $key;
@@ -15,9 +15,7 @@ final class SessionStorage{
      */
     function __construct(String $key = 'ahoracado') {
         $this-> key = $key;
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
+        
         if (!isset($_SESSION[$this->key])) {
             $_SESSION[$this->key] = [];
         }
