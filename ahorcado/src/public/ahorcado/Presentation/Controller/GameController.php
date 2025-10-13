@@ -34,7 +34,7 @@ final class GameController
         if ($state) {
             $game = new Game($state['word'], $state['maxAttempts'], $state);
         } else {
-            $repo = new JsonWordRepository($this->config['storage']['words_file']);
+            $repo = new JsonWordRepository($this->config['ficheros']['words_file']);
             $word = $repo->randomWord();
             $game = new Game($word, $this->config['game']['max_attempts']);
         }
@@ -51,6 +51,6 @@ final class GameController
 
     private function renderView(Game $game): void
     {
-        require __DIR__ . '/view.php';
+        require __DIR__ . '/../Views/View.php';
     }
 }

@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace App\Presentation\View\Game;
+namespace App\Presentation\View;
 ?>
 <!DOCTYPE html>
 <html lang="es">
