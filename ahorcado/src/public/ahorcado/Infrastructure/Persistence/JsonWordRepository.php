@@ -24,14 +24,16 @@ final class JsonWordRepository  implements WordRepositoryInterface{
      */
     public function randomWord(): string{
         if (!file_exists($this->filePath)) {
-            throw new \Exception("El archivo con las palabras no existe: {$this->filePath}");
+            throw new \RuntimeException("El archivo de palabras no existe: {$this->filePath}");
         }
-        $words = file($this->filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        if (!$words) {
-            throw new \Exception("El archivo de las palabras se encuentra vacio: {$this->filePath}");
+
+        $data = json_decode(file_get_contents($this->filePath), true);
+        if (!isset($data['words']) || !is_array($data['words'])) {
+            throw new \RuntimeException("El archivo JSON no contiene un array 'words'");
         }
-        $indexRand = array_rand($words);
-        return trim(strtoupper($words[$indexRand]));
+
+        $randomWord = strtoupper($data['words'][array_rand($data['words'])]);
+        return trim($randomWord);
     }
 
 }

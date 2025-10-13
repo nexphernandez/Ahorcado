@@ -51,6 +51,15 @@ final class GameController
 
     private function renderView(Game $game): void
     {
+        $renderer = $this->renderer;
+    $mostrar = $game->getMaskedWord();
+    $mensaje = '';
+
+    if ($game->isWon()) {
+        $mensaje = " ¡Felicidades! Has ganado. La palabra era: " . $game->getWord();
+    } elseif ($game->isLost()) {
+        $mensaje = " Has perdido. La palabra era: " . $game->getWord();
+    }
         require __DIR__ . '/../Views/View.php';
     }
 }

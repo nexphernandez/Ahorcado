@@ -25,7 +25,7 @@ namespace App\Presentation\View;
             $disabled = in_array($letra, $game->getUsedLetters()) ? 'disabled' : '';
             ?>
         <form method="post" style="display:inline;">
-            <button type="submit" name="word" value="<?= $letra ?>" <?= $disabled ?>><?= $letra ?></button>
+            <button type="submit" name="letter" value="<?= $letra ?>" <?= $disabled ?>><?= $letra ?></button>
         </form>
         <?php endforeach; ?>
     </div>
