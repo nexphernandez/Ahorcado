@@ -4,7 +4,7 @@
  * @version 1.0.0
  */
 declare (strict_types =1);
-namespace App\public\ahorcado;
+namespace App\Domain\Entity;
 final class Game {
     private String $word;
     private int $maxAttempts;

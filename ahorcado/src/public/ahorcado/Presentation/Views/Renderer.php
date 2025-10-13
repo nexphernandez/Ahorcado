@@ -4,7 +4,7 @@
  * @version 1.0.0
  */
 declare(strict_types=1);
-namespace srs\public\ahorcado;
+namespace App\Presentatiton\Views;
 
 final class Renderer{
     /**
