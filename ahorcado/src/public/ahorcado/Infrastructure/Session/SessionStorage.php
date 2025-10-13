@@ -4,13 +4,13 @@
  * @version 1.0.0
  */
 declare(strict_types=1);
-namespace srs\public\ahorcado;
+namespace App\Infraestructure\Session;
 
-final class Storage{
+final class SessionStorage{
     private String $key;
 
     /**
-     * Constructor de la clase Storage
+     * Constructor de la clase SessionStorage
      * @param string $key clave de para guardar los datos del juego
      */
     function __construct(String $key = 'ahoracado') {

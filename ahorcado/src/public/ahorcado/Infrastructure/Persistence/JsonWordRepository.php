@@ -4,13 +4,14 @@
  * @version 1.0.0
  */
 declare(strict_types= 1);
-namespace srs\public\ahorcado;
+namespace App\Infraestructure\Persistence;
 
-final class WordProvider{
+use App\Domain\Repository\WordRepositoryInterface;
+final class JsonWordRepository  implements WordRepositoryInterface{
     private $filePath;
 
     /**
-     * Constructor de la clase WordProvider
+     * Constructor de la clase JsonWordRepository
      * @param string $filePath ruta del archivo
      */
     public function __construct(string $filePath){
